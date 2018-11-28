@@ -8,20 +8,32 @@
 
 /* Begin PBXBuildFile section */
 		DAF51E5321AE02E300C1AAEC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF51E5221AE02E300C1AAEC /* AppDelegate.swift */; };
-		DAF51E5521AE02E300C1AAEC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF51E5421AE02E300C1AAEC /* ViewController.swift */; };
 		DAF51E5821AE02E300C1AAEC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DAF51E5621AE02E300C1AAEC /* Main.storyboard */; };
 		DAF51E5A21AE02E400C1AAEC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DAF51E5921AE02E400C1AAEC /* Assets.xcassets */; };
 		DAF51E5D21AE02E400C1AAEC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DAF51E5B21AE02E400C1AAEC /* LaunchScreen.storyboard */; };
+		DAF51E6D21AE034800C1AAEC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF51E6721AE034800C1AAEC /* ViewController.swift */; };
+		DAF51E6F21AE034800C1AAEC /* PianoKeyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF51E6B21AE034800C1AAEC /* PianoKeyView.swift */; };
+		DAF51E7021AE034800C1AAEC /* PianoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF51E6C21AE034800C1AAEC /* PianoView.swift */; };
+		DAF51E7321AE054600C1AAEC /* UIColor+RGB.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF51E7221AE054600C1AAEC /* UIColor+RGB.swift */; };
+		DAF51E7521AE08BD00C1AAEC /* Piano.sf2 in Resources */ = {isa = PBXBuildFile; fileRef = DAF51E7421AE08BD00C1AAEC /* Piano.sf2 */; };
+		DAF51E7A21AE099500C1AAEC /* AVAudioSession+Swift.m in Sources */ = {isa = PBXBuildFile; fileRef = DAF51E7921AE099500C1AAEC /* AVAudioSession+Swift.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		DAF51E4F21AE02E300C1AAEC /* Piano.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Piano.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DAF51E5221AE02E300C1AAEC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		DAF51E5421AE02E300C1AAEC /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		DAF51E5721AE02E300C1AAEC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		DAF51E5921AE02E400C1AAEC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DAF51E5C21AE02E400C1AAEC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DAF51E5E21AE02E400C1AAEC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DAF51E6721AE034800C1AAEC /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		DAF51E6B21AE034800C1AAEC /* PianoKeyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PianoKeyView.swift; sourceTree = "<group>"; };
+		DAF51E6C21AE034800C1AAEC /* PianoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PianoView.swift; sourceTree = "<group>"; };
+		DAF51E7221AE054600C1AAEC /* UIColor+RGB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+RGB.swift"; sourceTree = "<group>"; };
+		DAF51E7421AE08BD00C1AAEC /* Piano.sf2 */ = {isa = PBXFileReference; lastKnownFileType = file; path = Piano.sf2; sourceTree = "<group>"; };
+		DAF51E7721AE099500C1AAEC /* Piano-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Piano-Bridging-Header.h"; sourceTree = "<group>"; };
+		DAF51E7821AE099500C1AAEC /* AVAudioSession+Swift.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AVAudioSession+Swift.h"; sourceTree = "<group>"; };
+		DAF51E7921AE099500C1AAEC /* AVAudioSession+Swift.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "AVAudioSession+Swift.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,14 +66,61 @@
 		DAF51E5121AE02E300C1AAEC /* Piano */ = {
 			isa = PBXGroup;
 			children = (
+				DAF51E6521AE02F700C1AAEC /* Resources */,
+				DAF51E6421AE02EC00C1AAEC /* Sources */,
+			);
+			path = Piano;
+			sourceTree = "<group>";
+		};
+		DAF51E6421AE02EC00C1AAEC /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				DAF51E7721AE099500C1AAEC /* Piano-Bridging-Header.h */,
+				DAF51E7121AE053500C1AAEC /* Extensions */,
+				DAF51E6621AE034800C1AAEC /* Piano */,
 				DAF51E5221AE02E300C1AAEC /* AppDelegate.swift */,
-				DAF51E5421AE02E300C1AAEC /* ViewController.swift */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		DAF51E6521AE02F700C1AAEC /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				DAF51E7421AE08BD00C1AAEC /* Piano.sf2 */,
 				DAF51E5621AE02E300C1AAEC /* Main.storyboard */,
 				DAF51E5921AE02E400C1AAEC /* Assets.xcassets */,
 				DAF51E5B21AE02E400C1AAEC /* LaunchScreen.storyboard */,
 				DAF51E5E21AE02E400C1AAEC /* Info.plist */,
 			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		DAF51E6621AE034800C1AAEC /* Piano */ = {
+			isa = PBXGroup;
+			children = (
+				DAF51E6721AE034800C1AAEC /* ViewController.swift */,
+				DAF51E6A21AE034800C1AAEC /* Views */,
+			);
 			path = Piano;
+			sourceTree = "<group>";
+		};
+		DAF51E6A21AE034800C1AAEC /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				DAF51E6B21AE034800C1AAEC /* PianoKeyView.swift */,
+				DAF51E6C21AE034800C1AAEC /* PianoView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		DAF51E7121AE053500C1AAEC /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				DAF51E7221AE054600C1AAEC /* UIColor+RGB.swift */,
+				DAF51E7821AE099500C1AAEC /* AVAudioSession+Swift.h */,
+				DAF51E7921AE099500C1AAEC /* AVAudioSession+Swift.m */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -96,6 +155,7 @@
 				TargetAttributes = {
 					DAF51E4E21AE02E300C1AAEC = {
 						CreatedOnToolsVersion = 10.1;
+						LastSwiftMigration = 1010;
 					};
 				};
 			};
@@ -122,6 +182,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DAF51E7521AE08BD00C1AAEC /* Piano.sf2 in Resources */,
 				DAF51E5D21AE02E400C1AAEC /* LaunchScreen.storyboard in Resources */,
 				DAF51E5A21AE02E400C1AAEC /* Assets.xcassets in Resources */,
 				DAF51E5821AE02E300C1AAEC /* Main.storyboard in Resources */,
@@ -135,7 +196,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DAF51E5521AE02E300C1AAEC /* ViewController.swift in Sources */,
+				DAF51E6D21AE034800C1AAEC /* ViewController.swift in Sources */,
+				DAF51E7321AE054600C1AAEC /* UIColor+RGB.swift in Sources */,
+				DAF51E6F21AE034800C1AAEC /* PianoKeyView.swift in Sources */,
+				DAF51E7A21AE099500C1AAEC /* AVAudioSession+Swift.m in Sources */,
+				DAF51E7021AE034800C1AAEC /* PianoView.swift in Sources */,
 				DAF51E5321AE02E300C1AAEC /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -282,16 +347,21 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = Piano/Info.plist;
+				DEVELOPMENT_TEAM = 2KM44359R3;
+				INFOPLIST_FILE = Piano/Resources/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = no.finn.Piano;
+				PRODUCT_BUNDLE_IDENTIFIER = io.github.vadymmarkov.Piano;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Piano/Sources/Piano-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -299,16 +369,20 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = Piano/Info.plist;
+				DEVELOPMENT_TEAM = 2KM44359R3;
+				INFOPLIST_FILE = Piano/Resources/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = no.finn.Piano;
+				PRODUCT_BUNDLE_IDENTIFIER = io.github.vadymmarkov.Piano;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Piano/Sources/Piano-Bridging-Header.h";
 				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
