@@ -1,6 +1,6 @@
 # Piano
 
-![](https://raw.githubusercontent.com/finn-labs/DrumMachine/master/GitHub/image.png)
+![](https://raw.githubusercontent.com/finn-labs/Piano/master/GitHub/image.png)
 
 ## Credits
 
