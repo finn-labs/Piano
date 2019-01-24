@@ -63,11 +63,19 @@ final class ViewController: UIViewController {
         view.addSubview(pianoView)
 
         let widthMultiplier: CGFloat = UIDevice.current.userInterfaceIdiom == .pad ? 0.6 : 0.9
-        let heightMultiplier: CGFloat = UIDevice.current.userInterfaceIdiom == .pad ? 0.5 : 0.8
+        let heightMultiplier: CGFloat = UIDevice.current.userInterfaceIdiom == .pad ? 0.5 : 0.65
+        let yConstraint: NSLayoutConstraint
+
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            yConstraint = pianoView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        } else {
+            yConstraint = pianoView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -10)
+        }
+
 
         NSLayoutConstraint.activate([
+            yConstraint,
             pianoView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            pianoView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             pianoView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: widthMultiplier),
             pianoView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: heightMultiplier),
         ])
