@@ -41,8 +41,9 @@ final class ViewController: UIViewController {
         return reverb
     }()
 
-    private lazy var delay: AVAudioUnitDelay = {
-        let delay = AVAudioUnitDelay()
+    private lazy var delay: AVAudioUnitDistortion = {
+        let delay = AVAudioUnitDistortion()
+        delay.loadFactoryPreset(.multiBrokenSpeaker)
         delay.wetDryMix = 0
         return delay
     }()
@@ -91,11 +92,12 @@ final class ViewController: UIViewController {
         view.addSubview(reverbControl)
         view.addSubview(delayControl)
 
-        let widthMultiplier: CGFloat = UIDevice.current.userInterfaceIdiom == .pad ? 0.6 : 0.9
-        let heightMultiplier: CGFloat = UIDevice.current.userInterfaceIdiom == .pad ? 0.5 : 0.63
+        let isPad = UIDevice.current.userInterfaceIdiom == .pad
+        let widthMultiplier: CGFloat = isPad ? 0.6 : 0.9
+        let heightMultiplier: CGFloat = isPad ? 0.5 : 0.63
         let yConstraint: NSLayoutConstraint
 
-        if UIDevice.current.userInterfaceIdiom == .pad {
+        if isPad {
             yConstraint = pianoView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         } else {
             yConstraint = pianoView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -5)
@@ -107,7 +109,7 @@ final class ViewController: UIViewController {
             pianoView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: widthMultiplier),
             pianoView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: heightMultiplier),
 
-            reverbControl.bottomAnchor.constraint(equalTo: pianoView.topAnchor, constant: -20),
+            reverbControl.bottomAnchor.constraint(equalTo: pianoView.topAnchor, constant: -25),
             reverbControl.trailingAnchor.constraint(equalTo: pianoView.centerXAnchor),
             reverbControl.widthAnchor.constraint(equalToConstant: 100),
             reverbControl.heightAnchor.constraint(equalTo: reverbControl.widthAnchor),
