@@ -98,7 +98,7 @@ final class ViewController: UIViewController {
         if UIDevice.current.userInterfaceIdiom == .pad {
             yConstraint = pianoView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         } else {
-            yConstraint = pianoView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -10)
+            yConstraint = pianoView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -5)
         }
 
         NSLayoutConstraint.activate([
@@ -113,7 +113,7 @@ final class ViewController: UIViewController {
             reverbControl.heightAnchor.constraint(equalTo: reverbControl.widthAnchor),
 
             delayControl.bottomAnchor.constraint(equalTo: reverbControl.bottomAnchor),
-            delayControl.leadingAnchor.constraint(equalTo: reverbControl.trailingAnchor, constant: 70),
+            delayControl.leadingAnchor.constraint(equalTo: reverbControl.trailingAnchor, constant: 55),
             delayControl.widthAnchor.constraint(equalTo: reverbControl.widthAnchor),
             delayControl.heightAnchor.constraint(equalTo: delayControl.widthAnchor)
         ])
