@@ -43,7 +43,7 @@ final class PianoView: UIView {
         let naturalY = bounds.height - naturalHeight - spacing / 2
         var naturalFrame = CGRect(x: x, y: naturalY, width: width, height: naturalHeight)
 
-        let accidentalY = naturalY - spacing * 0.3 - width
+        let accidentalY = naturalY - width
         var accidentalFrame = CGRect(x: x, y: accidentalY, width: width, height: width)
 
         for keyView in keyViews {

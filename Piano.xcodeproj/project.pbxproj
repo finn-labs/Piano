@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CF20864721FA43EF007BECDC /* PianoEffectControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF20864621FA43EF007BECDC /* PianoEffectControl.swift */; };
+		CF20864921FA56EA007BECDC /* UIView+Layout.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF20864821FA56EA007BECDC /* UIView+Layout.swift */; };
+		CF4A051F21FA85EE000BB7DA /* PianoSliderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4A051E21FA85EE000BB7DA /* PianoSliderView.swift */; };
+		CF4A052121FA86D3000BB7DA /* PianoEffectIndicatorsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4A052021FA86D3000BB7DA /* PianoEffectIndicatorsView.swift */; };
 		DAF51E5321AE02E300C1AAEC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF51E5221AE02E300C1AAEC /* AppDelegate.swift */; };
 		DAF51E5821AE02E300C1AAEC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DAF51E5621AE02E300C1AAEC /* Main.storyboard */; };
 		DAF51E5A21AE02E400C1AAEC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DAF51E5921AE02E400C1AAEC /* Assets.xcassets */; };
@@ -20,6 +24,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		CF20864621FA43EF007BECDC /* PianoEffectControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PianoEffectControl.swift; sourceTree = "<group>"; };
+		CF20864821FA56EA007BECDC /* UIView+Layout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Layout.swift"; sourceTree = "<group>"; };
+		CF4A051E21FA85EE000BB7DA /* PianoSliderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PianoSliderView.swift; sourceTree = "<group>"; };
+		CF4A052021FA86D3000BB7DA /* PianoEffectIndicatorsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PianoEffectIndicatorsView.swift; sourceTree = "<group>"; };
 		DAF51E4F21AE02E300C1AAEC /* Piano.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Piano.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DAF51E5221AE02E300C1AAEC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DAF51E5721AE02E300C1AAEC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -47,6 +55,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		CF4A051D21FA85D9000BB7DA /* EffectControl */ = {
+			isa = PBXGroup;
+			children = (
+				CF20864621FA43EF007BECDC /* PianoEffectControl.swift */,
+				CF4A051E21FA85EE000BB7DA /* PianoSliderView.swift */,
+				CF4A052021FA86D3000BB7DA /* PianoEffectIndicatorsView.swift */,
+			);
+			path = EffectControl;
+			sourceTree = "<group>";
+		};
 		DAF51E4621AE02E300C1AAEC = {
 			isa = PBXGroup;
 			children = (
@@ -107,6 +125,7 @@
 		DAF51E6A21AE034800C1AAEC /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				CF4A051D21FA85D9000BB7DA /* EffectControl */,
 				DAF51E6B21AE034800C1AAEC /* PianoKeyView.swift */,
 				DAF51E6C21AE034800C1AAEC /* PianoView.swift */,
 			);
@@ -119,6 +138,7 @@
 				DAF51E7221AE054600C1AAEC /* UIColor+RGB.swift */,
 				DAF51E7821AE099500C1AAEC /* AVAudioSession+Swift.h */,
 				DAF51E7921AE099500C1AAEC /* AVAudioSession+Swift.m */,
+				CF20864821FA56EA007BECDC /* UIView+Layout.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -196,9 +216,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CF4A052121FA86D3000BB7DA /* PianoEffectIndicatorsView.swift in Sources */,
+				CF20864721FA43EF007BECDC /* PianoEffectControl.swift in Sources */,
 				DAF51E6D21AE034800C1AAEC /* ViewController.swift in Sources */,
+				CF4A051F21FA85EE000BB7DA /* PianoSliderView.swift in Sources */,
 				DAF51E7321AE054600C1AAEC /* UIColor+RGB.swift in Sources */,
 				DAF51E6F21AE034800C1AAEC /* PianoKeyView.swift in Sources */,
+				CF20864921FA56EA007BECDC /* UIView+Layout.swift in Sources */,
 				DAF51E7A21AE099500C1AAEC /* AVAudioSession+Swift.m in Sources */,
 				DAF51E7021AE034800C1AAEC /* PianoView.swift in Sources */,
 				DAF51E5321AE02E300C1AAEC /* AppDelegate.swift in Sources */,
