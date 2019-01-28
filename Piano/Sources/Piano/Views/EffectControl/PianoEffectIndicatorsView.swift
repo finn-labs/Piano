@@ -1,9 +1,5 @@
 //
-//  PianoEffectIndicator.swift
-//  Piano
-//
-//  Created by Markov, Vadym on 25/01/2019.
-//  Copyright © 2019 FINN. All rights reserved.
+//  Copyright © 2018 FINN AS. All rights reserved.
 //
 
 import UIKit
@@ -48,10 +44,11 @@ final class PianoEffectIndicatorsView: UIView {
 
     override func layoutSubviews() {
         super.layoutSubviews()
-        replicatorLayer.frame = bounds
 
         let dotSize: CGFloat = 4
         let midY = bounds.midY - dotSize / 2.0
+
+        replicatorLayer.frame = bounds
         dotInstanceLayer.frame = CGRect(x: bounds.maxX, y: midY, width: dotSize, height: dotSize)
         dotInstanceLayer.cornerRadius = dotSize / 2
     }

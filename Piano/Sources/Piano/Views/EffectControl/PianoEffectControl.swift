@@ -1,3 +1,7 @@
+//
+//  Copyright © 2018 FINN AS. All rights reserved.
+//
+
 import UIKit
 
 protocol PianoEffectControlDelegate: AnyObject {
@@ -18,7 +22,7 @@ final class PianoEffectControl: UIView {
     private let maximumValue: CGFloat = 1
     private let startAngle: CGFloat = -.pi * 5 / 4
     private var endAngle: CGFloat = .pi / 4
-    private lazy var pointerAngle: CGFloat = startAngle
+    private lazy var angle: CGFloat = startAngle
 
     private var angleRange: CGFloat {
         return endAngle - startAngle
@@ -28,18 +32,10 @@ final class PianoEffectControl: UIView {
         return maximumValue - minimumValue
     }
 
-    private(set) lazy var titleLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.systemFont(ofSize: 14)
-        label.textColor = UIColor(r: 143, g: 145, b: 150)
-        label.textAlignment = .center
-        return label
-    }()
+    // MARK: - Views
 
     private lazy var sliderView: PianoSlider = {
-        let view = PianoSlider()
-        view.translatesAutoresizingMaskIntoConstraints = false
+        let view = PianoSlider(withAutoLayout: true)
         view.backgroundColor = .clear
         return view
     }()
@@ -66,8 +62,8 @@ final class PianoEffectControl: UIView {
 
     func setValue(_ newValue: CGFloat) {
         value = min(maximumValue, max(minimumValue, newValue))
-        pointerAngle = (value - minimumValue) / valueRange * angleRange + startAngle
-        sliderView.transform = CGAffineTransform(rotationAngle: pointerAngle)
+        angle = (value - minimumValue) / valueRange * angleRange + startAngle
+        sliderView.transform = CGAffineTransform(rotationAngle: angle)
     }
 
     // MARK: - Setup
@@ -77,82 +73,58 @@ final class PianoEffectControl: UIView {
 
         addSubview(indicatorsView)
         addSubview(sliderView)
-        addSubview(titleLabel)
+
+        indicatorsView.fillInSuperview()
 
         NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: topAnchor),
-            titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
-            titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
-
-            indicatorsView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 10),
-            indicatorsView.centerXAnchor.constraint(equalTo: centerXAnchor),
-            indicatorsView.widthAnchor.constraint(equalToConstant: 80),
-            indicatorsView.heightAnchor.constraint(equalTo: indicatorsView.widthAnchor),
-
             sliderView.centerXAnchor.constraint(equalTo: indicatorsView.centerXAnchor),
             sliderView.centerYAnchor.constraint(equalTo: indicatorsView.centerYAnchor),
-            sliderView.widthAnchor.constraint(equalToConstant: 64),
+            sliderView.widthAnchor.constraint(equalTo: indicatorsView.widthAnchor, multiplier: 0.8),
             sliderView.heightAnchor.constraint(equalTo: sliderView.widthAnchor)
-        ])
-
-        let gestureRecognizer = RotationGestureRecognizer(target: self, action: #selector(handleGesture(_:)))
-        addGestureRecognizer(gestureRecognizer)
+            ])
     }
 
-    // MARK: - Gestures
-
-    @objc private func handleGesture(_ gesture: RotationGestureRecognizer) {
-        let midPointAngle = (2 * .pi + startAngle - endAngle) / 2 + endAngle
-        var boundedAngle = gesture.angle
-
-        if boundedAngle > midPointAngle {
-            boundedAngle -= 2 * .pi
-        } else if boundedAngle < (midPointAngle - 2 * .pi) {
-            boundedAngle -= 2 * .pi
-        }
-
-        boundedAngle = min(endAngle, max(startAngle, boundedAngle))
-
-
-        let angleValue = (boundedAngle - startAngle) / angleRange * valueRange + minimumValue
-
-        setValue(angleValue)
-
-        if gesture.state == .ended || gesture.state == .cancelled {
-            delegate?.pianoEffectControl(self, didChangeValue: Float(value))
-        }
-    }
-}
-
-// MARK: - Private types
-
-private class RotationGestureRecognizer: UIPanGestureRecognizer {
-    private(set) var angle: CGFloat = 0
-
-    override init(target: Any?, action: Selector?) {
-        super.init(target: target, action: action)
-        maximumNumberOfTouches = 1
-        minimumNumberOfTouches = 1
-    }
-
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent) {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
-        updateAngle(with: touches)
+        handleTouches(touches)
     }
 
-    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent) {
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesMoved(touches, with: event)
-        updateAngle(with: touches)
+        handleTouches(touches)
     }
 
-    private func updateAngle(with touches: Set<UITouch>) {
-        guard let touch = touches.first, let view = view else {
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesCancelled(touches, with: event)
+        handleTouches(touches)
+        delegate?.pianoEffectControl(self, didChangeValue: Float(value))
+    }
+
+    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesCancelled(touches, with: event)
+        handleTouches(touches)
+        delegate?.pianoEffectControl(self, didChangeValue: Float(value))
+    }
+
+    // MARK: - Touches
+
+    @objc private func handleTouches(_ touches: Set<UITouch>) {
+        guard let touch = touches.first else {
             return
         }
 
-        let point = touch.location(in: view)
-        let centerOffset = CGPoint(x: point.x - view.bounds.midX, y: point.y - view.bounds.midY)
-        angle = atan2(centerOffset.y, centerOffset.x)
+        let point = touch.location(in: self)
+        let offset = CGPoint(x: point.x - bounds.midX, y: point.y - bounds.midY)
+        let middleAngle = (2 * .pi + startAngle - endAngle) / 2 + endAngle
+        var currentAngle = atan2(offset.y, offset.x)
+
+        if currentAngle > middleAngle || currentAngle < (middleAngle - 2 * .pi) {
+            currentAngle -= 2 * .pi
+        }
+
+        currentAngle = min(endAngle, max(startAngle, currentAngle))
+
+        let value = (currentAngle - startAngle) / angleRange * valueRange + minimumValue
+        setValue(value)
     }
 }
-

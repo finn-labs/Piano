@@ -1,25 +1,21 @@
 //
-//  PianoView.swift
-//  Piano
-//
-//  Created by Vadym Markov on 27/11/2018.
-//  Copyright © 2018 FINN.no. All rights reserved.
+//  Copyright © 2018 FINN AS. All rights reserved.
 //
 
 import UIKit
 
-protocol PianoViewDataSource: AnyObject {
-    func pianoViewNumberOfKeyViews(_ pianoView: PianoView) -> Int
+protocol PianoKeyboardViewDataSource: AnyObject {
+    func pianoKeyboardViewNumberOfKeyViews(_ pianoView: PianoKeyboardView) -> Int
 }
 
-protocol PianoViewDelegate: AnyObject {
-    func pianoView(_ pianoView: PianoView, didSelectKeyViewAt index: Int)
-    func pianoView(_ pianoView: PianoView, didDeselectKeyViewAt index: Int)
+protocol PianoKeyboardViewDelegate: AnyObject {
+    func pianoKeyboardView(_ view: PianoKeyboardView, didSelectKeyViewAt index: Int)
+    func pianoKeyboardView(_ view: PianoKeyboardView, didDeselectKeyViewAt index: Int)
 }
 
-final class PianoView: UIView {
-    weak var dataSource: PianoViewDataSource?
-    weak var delegate: PianoViewDelegate?
+final class PianoKeyboardView: UIView {
+    weak var dataSource: PianoKeyboardViewDataSource?
+    weak var delegate: PianoKeyboardViewDelegate?
 
     private let accidentalKeyIndices = Set([1, 3, 6, 8, 10])
     private var keyViews = [PianoKeyView]()
@@ -32,19 +28,15 @@ final class PianoView: UIView {
         setupLayout()
     }
 
+    // swiftlint:disable identifier_name
     private func setupLayout() {
         let numberOfNaturalKeys: CGFloat = 7
         let widthWithSpacing = bounds.width / numberOfNaturalKeys
         let spacing = widthWithSpacing * 0.4 / 1.4
         let x = spacing / 2
         let width = widthWithSpacing - spacing
-
-        let naturalHeight = bounds.height * 0.6
-        let naturalY = bounds.height - naturalHeight - spacing / 2
-        var naturalFrame = CGRect(x: x, y: naturalY, width: width, height: naturalHeight)
-
-        let accidentalY = naturalY - width
-        var accidentalFrame = CGRect(x: x, y: accidentalY, width: width, height: width)
+        var naturalFrame = CGRect(x: x, y: width, width: width, height: bounds.height - width)
+        var accidentalFrame = CGRect(x: x, y: 0, width: width, height: width)
 
         for keyView in keyViews {
             if keyView.isAccidental {
@@ -71,7 +63,9 @@ final class PianoView: UIView {
     }
 
     private func addKeyViews() {
-        guard let numberOfKeyViews = dataSource?.pianoViewNumberOfKeyViews(self) else { return }
+        guard let numberOfKeyViews = dataSource?.pianoKeyboardViewNumberOfKeyViews(self) else {
+            return
+        }
 
         for index in 0..<numberOfKeyViews {
             let keyView = PianoKeyView()
@@ -111,7 +105,7 @@ final class PianoView: UIView {
             let previousPoint = touch.previousLocation(in: self)
             let previousIndex = keyViewIndex(for: previousPoint)
 
-            if let currentIndex = currentIndex, currentIndex != previousIndex, frame.contains(currentPoint) {
+            if let currentIndex = currentIndex, currentIndex != previousIndex, bounds.contains(currentPoint) {
                 selectKeyView(at: currentIndex)
             }
 
@@ -145,17 +139,23 @@ final class PianoView: UIView {
     // MARK: - Selection
 
     private func selectKeyView(at index: Int) {
-        guard let keyView = keyViews[safe: index], !keyView.isSelected else { return }
+        guard let keyView = keyViews[safe: index], !keyView.isSelected else {
+            return
+        }
+
         keyView.isSelected = true
         selectedIndices.insert(index)
-        delegate?.pianoView(self, didSelectKeyViewAt: index)
+        delegate?.pianoKeyboardView(self, didSelectKeyViewAt: index)
     }
 
     private func deselectKeyView(at index: Int) {
-        guard let keyView = keyViews[safe: index], keyView.isSelected else { return }
+        guard let keyView = keyViews[safe: index], keyView.isSelected else {
+            return
+        }
+
         keyView.isSelected = false
         selectedIndices.remove(index)
-        delegate?.pianoView(self, didDeselectKeyViewAt: index)
+        delegate?.pianoKeyboardView(self, didDeselectKeyViewAt: index)
     }
 
     private func deselectKeyViewsIfNeeded(for touches: Set<UITouch>) {

@@ -1,9 +1,5 @@
 //
-//  ViewController.swift
-//  Piano
-//
-//  Created by Vadym Markov on 27/11/2018.
-//  Copyright © 2018 FINN.no. All rights reserved.
+//  Copyright © 2018 FINN AS. All rights reserved.
 //
 
 import UIKit
@@ -14,7 +10,6 @@ final class ViewController: UIViewController {
         let octave: UInt8 = 5
         let root: UInt8 = octave * 12
         let numberOfNotesInOctave: UInt8 = 12
-
         return (0..<numberOfNotesInOctave).map({ root + $0 })
     }()
 
@@ -24,12 +19,12 @@ final class ViewController: UIViewController {
         let audioEngine = AVAudioEngine()
 
         audioEngine.attach(reverb)
-        audioEngine.attach(delay)
+        audioEngine.attach(distortion)
         audioEngine.attach(sampler)
 
         audioEngine.connect(sampler, to: reverb, format: nil)
-        audioEngine.connect(reverb, to: delay, format: nil)
-        audioEngine.connect(delay, to: audioEngine.mainMixerNode, format: nil)
+        audioEngine.connect(reverb, to: distortion, format: nil)
+        audioEngine.connect(distortion, to: audioEngine.mainMixerNode, format: nil)
 
         return audioEngine
     }()
@@ -41,37 +36,36 @@ final class ViewController: UIViewController {
         return reverb
     }()
 
-    private lazy var delay: AVAudioUnitDistortion = {
-        let delay = AVAudioUnitDistortion()
-        delay.loadFactoryPreset(.multiBrokenSpeaker)
-        delay.wetDryMix = 0
-        return delay
+    private lazy var distortion: AVAudioUnitDistortion = {
+        let distortion = AVAudioUnitDistortion()
+        distortion.loadFactoryPreset(.multiBrokenSpeaker)
+        distortion.wetDryMix = 0
+        return distortion
     }()
 
-    private lazy var pianoView: PianoView = {
-        let pianoView = PianoView()
-        pianoView.translatesAutoresizingMaskIntoConstraints = false
+    // MARK: - Views
+
+    private lazy var pianoView: PianoKeyboardView = {
+        let pianoView = PianoKeyboardView(withAutoLayout: true)
         pianoView.dataSource = self
         pianoView.delegate = self
         return pianoView
     }()
 
-    private lazy var reverbControl: PianoEffectControl = {
-        let control = PianoEffectControl()
-        control.delegate = self
-        control.translatesAutoresizingMaskIntoConstraints = false
-        control.sliderColor = UIColor(r: 50, g: 162, b: 255)
-        control.titleLabel.text = "reverb"
-        return control
+    private lazy var reverbView: PianoEffectView = {
+        let view = PianoEffectView(withAutoLayout: true)
+        view.titleLabel.text = "reverb"
+        view.control.sliderColor = UIColor(r: 50, g: 162, b: 255)
+        view.control.delegate = self
+        return view
     }()
 
-    private lazy var delayControl: PianoEffectControl = {
-        let control = PianoEffectControl()
-        control.delegate = self
-        control.translatesAutoresizingMaskIntoConstraints = false
-        control.sliderColor = UIColor(r: 255, g: 75, b: 0)
-        control.titleLabel.text = "delay"
-        return control
+    private lazy var distortionView: PianoEffectView = {
+        let view = PianoEffectView(withAutoLayout: true)
+        view.titleLabel.text = "distortion"
+        view.control.sliderColor = UIColor(r: 255, g: 75, b: 0)
+        view.control.delegate = self
+        return view
     }()
 
     // MARK: - Lifecycle
@@ -88,36 +82,28 @@ final class ViewController: UIViewController {
     private func setup() {
         view.backgroundColor = UIColor(r: 216, g: 219, b: 227)
 
+        view.addSubview(reverbView)
+        view.addSubview(distortionView)
         view.addSubview(pianoView)
-        view.addSubview(reverbControl)
-        view.addSubview(delayControl)
 
         let isPad = UIDevice.current.userInterfaceIdiom == .pad
-        let widthMultiplier: CGFloat = isPad ? 0.6 : 0.9
-        let heightMultiplier: CGFloat = isPad ? 0.5 : 0.63
-        let yConstraint: NSLayoutConstraint
-
-        if isPad {
-            yConstraint = pianoView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
-        } else {
-            yConstraint = pianoView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -5)
-        }
+        let reverbYAnchor = isPad
+            ? reverbView.bottomAnchor.constraint(equalTo: view.centerYAnchor, constant: -.veryLargeSpacing)
+            : reverbView.topAnchor.constraint(equalTo: view.topAnchor, constant: .mediumLargeSpacing)
+        let pianoTopConstant: CGFloat = isPad ? .veryLargeSpacing : .mediumLargeSpacing
 
         NSLayoutConstraint.activate([
-            yConstraint,
+            reverbYAnchor,
+            reverbView.trailingAnchor.constraint(equalTo: pianoView.centerXAnchor),
+
+            distortionView.topAnchor.constraint(equalTo: reverbView.topAnchor),
+            distortionView.leadingAnchor.constraint(equalTo: reverbView.trailingAnchor, constant: 55),
+            distortionView.heightAnchor.constraint(equalTo: reverbView.heightAnchor),
+
+            pianoView.topAnchor.constraint(equalTo: reverbView.bottomAnchor, constant: pianoTopConstant),
             pianoView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            pianoView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: widthMultiplier),
-            pianoView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: heightMultiplier),
-
-            reverbControl.bottomAnchor.constraint(equalTo: pianoView.topAnchor, constant: -25),
-            reverbControl.trailingAnchor.constraint(equalTo: pianoView.centerXAnchor),
-            reverbControl.widthAnchor.constraint(equalToConstant: 100),
-            reverbControl.heightAnchor.constraint(equalTo: reverbControl.widthAnchor),
-
-            delayControl.bottomAnchor.constraint(equalTo: reverbControl.bottomAnchor),
-            delayControl.leadingAnchor.constraint(equalTo: reverbControl.trailingAnchor, constant: 55),
-            delayControl.widthAnchor.constraint(equalTo: reverbControl.widthAnchor),
-            delayControl.heightAnchor.constraint(equalTo: delayControl.widthAnchor)
+            pianoView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.9),
+            pianoView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -.mediumSpacing)
         ])
 
         pianoView.reloadData()
@@ -155,23 +141,23 @@ final class ViewController: UIViewController {
     }
 }
 
-// MARK: - PianoViewDataSource
+// MARK: - PianoKeyboardViewDataSource
 
-extension ViewController: PianoViewDataSource {
-    func pianoViewNumberOfKeyViews(_ pianoView: PianoView) -> Int {
+extension ViewController: PianoKeyboardViewDataSource {
+    func pianoKeyboardViewNumberOfKeyViews(_ pianoView: PianoKeyboardView) -> Int {
         return notes.count
     }
 }
 
-// MARK: - PianoViewDelegate
+// MARK: - PianoKeyboardViewDelegates
 
-extension ViewController: PianoViewDelegate {
-    func pianoView(_ pianoView: PianoView, didSelectKeyViewAt index: Int) {
+extension ViewController: PianoKeyboardViewDelegate {
+    func pianoKeyboardView(_ pianoView: PianoKeyboardView, didSelectKeyViewAt index: Int) {
         let note = notes[index]
         sampler.startNote(note, withVelocity: 120, onChannel: 0)
     }
 
-    func pianoView(_ pianoView: PianoView, didDeselectKeyViewAt index: Int) {
+    func pianoKeyboardView(_ pianoView: PianoKeyboardView, didDeselectKeyViewAt index: Int) {
         let note = notes[index]
         sampler.stopNote(note, onChannel: 0)
     }
@@ -181,10 +167,11 @@ extension ViewController: PianoViewDelegate {
 
 extension ViewController: PianoEffectControlDelegate {
     func pianoEffectControl(_ control: PianoEffectControl, didChangeValue value: Float) {
-        if control == reverbControl {
+        if control == reverbView.control {
             reverb.wetDryMix = value * 100
-        } else if control == delayControl {
-            delay.wetDryMix = value * 100
+        } else if control == distortionView.control {
+            distortion.wetDryMix = value * 100
         }
     }
 }
+

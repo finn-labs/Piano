@@ -24,4 +24,9 @@ extension UIView {
 
         return constraints
     }
+
+    convenience init(withAutoLayout autoLayout: Bool) {
+        self.init()
+        translatesAutoresizingMaskIntoConstraints = !autoLayout
+    }
 }
